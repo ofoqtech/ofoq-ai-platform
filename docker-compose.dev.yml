@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ofoq_postgres_dev
+    environment:
+      POSTGRES_USER: ofoq
+      POSTGRES_PASSWORD: ofoq_dev
+      POSTGRES_DB: ofoq_ai
+    ports: ["5432:5432"]
+    volumes: [postgres_dev:/var/lib/postgresql/data]
+    networks: [ofoq_dev]
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ofoq_ollama_dev
+    ports: ["11434:11434"]
+    volumes: [ollama_dev:/root/.ollama]
+    networks: [ofoq_dev]
+
+  gateway:
+    build:
+      context: ./gateway
+      target: builder
+    container_name: ofoq_gateway_dev
+    command: npm run start:dev
+    env_file: ./gateway/.env
+    ports: ["3000:3000"]
+    volumes:
+      - ./gateway/src:/app/src
+    depends_on: [postgres, ollama]
+    networks: [ofoq_dev]
+
+  dashboard:
+    build:
+      context: ./dashboard
+      target: deps
+    container_name: ofoq_dashboard_dev
+    command: npm run dev
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3000/api/v1
+    ports: ["3001:3001"]
+    volumes:
+      - ./dashboard/src:/app/src
+    networks: [ofoq_dev]
+
+volumes:
+  postgres_dev:
+  ollama_dev:
+
+networks:
+  ofoq_dev:

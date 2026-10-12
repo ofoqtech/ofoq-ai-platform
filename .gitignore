@@ -1,0 +1,11 @@
+node_modules/
+dist/
+out/
+.next/
+*.env
+!*.env.example
+.DS_Store
+*.log
+letsencrypt/
+postgres_data/
+ollama_data/

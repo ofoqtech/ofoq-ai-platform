@@ -1,0 +1,11 @@
+{
+  "name": "ofoq-ai-platform",
+  "private": true,
+  "workspaces": ["gateway", "dashboard", "vscode-extension"],
+  "scripts": {
+    "dev": "docker compose -f docker-compose.dev.yml up",
+    "prod": "docker compose -f docker-compose.prod.yml up -d",
+    "gateway:dev": "cd gateway && npm run start:dev",
+    "dashboard:dev": "cd dashboard && npm run dev"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "name": "ofoq-ai",
+  "displayName": "Ofoq AI Assistant",
+  "description": "مساعد الذكاء الاصطناعي الداخلي لفريق أفق تك",
+  "version": "1.0.0",
+  "publisher": "ofoqtech",
+  "engines": { "vscode": "^1.90.0" },
+  "categories": ["AI", "Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "ofoq.chat", "title": "Ofoq AI: فتح المحادثة" },
+      { "command": "ofoq.explainCode", "title": "Ofoq AI: اشرح هذا الكود" },
+      { "command": "ofoq.fixCode", "title": "Ofoq AI: أصلح هذا الكود" },
+      { "command": "ofoq.improveCode", "title": "Ofoq AI: حسّن هذا الكود" },
+      { "command": "ofoq.writeTests", "title": "Ofoq AI: اكتب اختبارات" },
+      { "command": "ofoq.configure", "title": "Ofoq AI: إعدادات" }
+    ],
+    "menus": {
+      "editor/context": [
+        { "command": "ofoq.explainCode", "when": "editorHasSelection", "group": "ofoq@1" },
+        { "command": "ofoq.fixCode", "when": "editorHasSelection", "group": "ofoq@2" },
+        { "command": "ofoq.improveCode", "when": "editorHasSelection", "group": "ofoq@3" },
+        { "command": "ofoq.writeTests", "when": "editorHasSelection", "group": "ofoq@4" }
+      ]
+    },
+    "configuration": {
+      "title": "Ofoq AI",
+      "properties": {
+        "ofoq.apiUrl": {
+          "type": "string",
+          "default": "https://your-server.com/api/v1",
+          "description": "رابط Ofoq AI Gateway"
+        },
+        "ofoq.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "مفتاح API الخاص بك (من Dashboard)"
+        },
+        "ofoq.defaultProvider": {
+          "type": "string",
+          "enum": ["auto", "ollama", "claude"],
+          "default": "auto",
+          "description": "النموذج الافتراضي"
+        }
+      }
+    },
+    "keybindings": [
+      { "command": "ofoq.chat", "key": "ctrl+shift+a", "mac": "cmd+shift+a" }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "lint": "eslint src"
+  },
+  "dependencies": { "axios": "^1.7.9" },
+  "devDependencies": {
+    "@types/vscode": "^1.90.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.3",
+    "@vscode/vsce": "^3.2.1"
+  }
+}
