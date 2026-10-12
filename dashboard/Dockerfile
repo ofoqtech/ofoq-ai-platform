@@ -1,7 +1,11 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm install --legacy-peer-deps
+
+# dev stage (used by docker-compose.dev.yml)
+FROM deps AS dev-ready
+COPY . .
 
 FROM node:20-alpine AS builder
 WORKDIR /app
