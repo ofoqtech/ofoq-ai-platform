@@ -22,7 +22,7 @@ import { HealthModule } from './health/health.module';
         password: config.get('DB_PASSWORD') || config.get('DB_PASS') || 'ofoq_secret',
         database: config.get('DB_DATABASE') || config.get('DB_NAME') || 'ofoq_ai',
         autoLoadEntities: true,
-        synchronize: config.get('NODE_ENV') !== 'production',
+        synchronize: true,
       }),
     }),
 
