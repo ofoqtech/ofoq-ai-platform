@@ -58,11 +58,11 @@ services:
       context: ./dashboard
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: http://${DOMAIN}/api/v1
+        NEXT_PUBLIC_API_URL: https://${DOMAIN}/api/v1
     container_name: ofoq_dashboard
     restart: unless-stopped
     environment:
-      NEXT_PUBLIC_API_URL: http://${DOMAIN}/api/v1
+      NEXT_PUBLIC_API_URL: https://${DOMAIN}/api/v1
     networks: [ofoq_net]
     labels:
       - "traefik.enable=true"
