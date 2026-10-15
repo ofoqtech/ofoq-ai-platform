@@ -7,6 +7,7 @@ import { Message } from './entities/message.entity';
 import { RouterService, ModelProvider } from './router.service';
 import { OllamaService } from './providers/ollama.service';
 import { ClaudeService } from './providers/claude.service';
+import { OpenRouterService } from './providers/openrouter.service';
 import { UsageService } from '../usage/usage.service';
 
 @Injectable()
@@ -17,6 +18,7 @@ export class ChatService {
     private router: RouterService,
     private ollama: OllamaService,
     private claude: ClaudeService,
+    private openrouter: OpenRouterService,
     private usage: UsageService,
   ) {}
 
@@ -81,6 +83,8 @@ export class ChatService {
     let result: any;
     if (decision.provider === ModelProvider.CLAUDE) {
       result = await this.claude.chat(decision.model, history, conv.systemPrompt || '', stream, res);
+    } else if (decision.provider === ModelProvider.OPENROUTER) {
+      result = await this.openrouter.chat(decision.model, history, conv.systemPrompt || '', stream, res);
     } else {
       const ollamaMessages = conv.systemPrompt
         ? [{ role: 'system', content: conv.systemPrompt }, ...history]

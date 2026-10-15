@@ -12,7 +12,7 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [provider, setProvider] = useState<"auto" | "ollama" | "claude">("auto");
+  const [provider, setProvider] = useState<"auto" | "ollama" | "claude" | "openrouter">("auto");
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { loadConversations(); }, []);
@@ -124,7 +124,7 @@ export default function ChatPage() {
                         {msg.routing && (
                           <div className="mt-2 pt-2 border-t border-surface-border flex items-center gap-2 text-slate-500 text-xs">
                             {msg.routing.provider === "claude" ? <Brain size={12} /> : <Zap size={12} />}
-                            <span>{msg.routing.provider === "claude" ? "Claude" : "Ollama"} · {msg.routing.model}</span>
+                            <span>{msg.routing.provider === "claude" ? "Claude" : msg.routing.provider === "openrouter" ? "OpenRouter" : "Ollama"} · {msg.routing.model}</span>
                           </div>
                         )}
                       </>
@@ -151,12 +151,12 @@ export default function ChatPage() {
 
             {/* Input */}
             <div className="border-t border-surface-border pt-3 space-y-2">
-              <div className="flex gap-2">
-                {(["auto", "ollama", "claude"] as const).map((p) => (
+              <div className="flex gap-2 flex-wrap">
+                {(["auto", "openrouter", "ollama", "claude"] as const).map((p) => (
                   <button key={p} onClick={() => setProvider(p)}
                     className={clsx("text-xs px-3 py-1 rounded-full transition-colors",
                       provider === p ? "bg-primary text-white" : "bg-surface-border text-slate-400 hover:text-white")}>
-                    {p === "auto" ? "🤖 تلقائي" : p === "ollama" ? "⚡ Ollama" : "🧠 Claude"}
+                    {p === "auto" ? "🤖 تلقائي" : p === "openrouter" ? "🚀 OpenRouter" : p === "ollama" ? "⚡ Ollama" : "🧠 Claude"}
                   </button>
                 ))}
               </div>
